@@ -16,11 +16,11 @@ end
     meanResiduals001 = zeros(size(residuals,4),numberRegressors);
     meanSignal001 = meanResiduals001;
 
-    meanResidualsGM = squeeze(nanmean(residuals.*mask,[1 2 3])) ;
-    meanSignalGM= squeeze(nanmean(signal.*mask,[1 2 3])) ;
+    meanResidualsGM = squeeze(mean(mean(mean(residuals.*mask,1,'omitnan'),2,'omitnan'),3,'omitnan'));
+    meanSignalGM= squeeze(mean(mean(mean(signal.*mask,1,'omitnan'),2,'omitnan'),3,'omitnan')) ;
 
     for i=1 : numberRegressors
-        meanSignal001(:,i) = nanmean(signal.*signMask(:,:,:,i),[1 2 3]) ;
-        meanResiduals001(:,i) = nanmean(residuals.*signMask(:,:,:,i),[1 2 3]) ;
+        meanSignal001(:,i) = squeeze(mean(mean(mean(signal.*signMask(:,:,:,i),1,'omitnan'),2,'omitnan'),3,'omitnan')) ;
+        meanResiduals001(:,i) = squeeze(mean(mean(mean(residuals.*signMask(:,:,:,i),1,'omitnan'),2,'omitnan'),3,'omitnan'));
     end
 end
